@@ -1,56 +1,55 @@
-import {
-  Link as ChakraLink,
-  Text,
-  Code,
-  List,
-  ListIcon,
-  ListItem,
-} from '@chakra-ui/react'
-import { CheckCircleIcon, LinkIcon } from '@chakra-ui/icons'
+import { Box } from "@chakra-ui/react";
+import { useEffect } from "react";
+import { useQuery } from "react-query";
+import axiosClient from "../api_client/apiClient";
+import { getListProduct } from "../api_client/productApi";
+import ListProduct from "../components/ListProduct";
+import Loading from "../components/Loading";
+import NavBar from "../components/Sidebar";
 
-import { Hero } from '../components/Hero'
-import { Container } from '../components/Container'
-import { Main } from '../components/Main'
-import { DarkModeSwitch } from '../components/DarkModeSwitch'
-import { CTA } from '../components/CTA'
-import { Footer } from '../components/Footer'
+const Index = () => {
+  const {
+    data: products,
+    isLoading,
+    isError,
+    error,
+  } = useQuery("products", getListProduct, { keepPreviousData: true });
+  if (isLoading) return <Loading />;
+  if (isError) return <div>Error: {error}</div>;
+  // console.log(products);
+  return (
+    <Box w={"100%"} p={4} bg="gray.50">
+      <ListProduct products={products} />
+    </Box>
+  );
+};
 
-const Index = () => (
-  <Container height="100vh">
-    <Hero />
-    <Main>
-      <Text>
-        Example repository of <Code>Next.js</Code> + <Code>chakra-ui</Code> +{' '}
-        <Code>TypeScript</Code>.
-      </Text>
+// export async function getStaticPaths() {
+//   const paths = products.map((product) => ({
+//     params: { productId: product.id },
+//   }));
+//   return {
+//     paths: paths,
+//     fallback: true, // false or 'blocking'
+//   };
+// }
 
-      <List spacing={3} my={0}>
-        <ListItem>
-          <ListIcon as={CheckCircleIcon} color="green.500" />
-          <ChakraLink
-            isExternal
-            href="https://chakra-ui.com"
-            flexGrow={1}
-            mr={2}
-          >
-            Chakra UI <LinkIcon />
-          </ChakraLink>
-        </ListItem>
-        <ListItem>
-          <ListIcon as={CheckCircleIcon} color="green.500" />
-          <ChakraLink isExternal href="https://nextjs.org" flexGrow={1} mr={2}>
-            Next.js <LinkIcon />
-          </ChakraLink>
-        </ListItem>
-      </List>
-    </Main>
+// export async function getStaticProps(context) {
+//   const {
+//     data: products,
+//     isLoading,
+//     isError,
+//     error,
+//   } = useQuery("products", getListProduct, { keepPreviousData: true });
+//   console.log(context);
+//   return {
+//     props: {
+//       products,
+//       isLoading,
+//       isError,
+//       error,
+//     }, // will be passed to the page component as props
+//   };
+// }
 
-    <DarkModeSwitch />
-    <Footer>
-      <Text>Next ❤️ Chakra</Text>
-    </Footer>
-    <CTA />
-  </Container>
-)
-
-export default Index
+export default Index;
