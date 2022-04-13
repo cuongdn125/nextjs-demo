@@ -2,8 +2,6 @@ import React from "react";
 
 import Sidebar from "../Sidebar";
 
-type Props = {};
-
 const MainLayout = ({ children }) => {
   return (
     <>

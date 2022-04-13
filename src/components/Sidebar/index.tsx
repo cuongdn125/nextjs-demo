@@ -24,22 +24,19 @@ import {
 } from "@chakra-ui/react";
 import Link from "next/link";
 import React from "react";
-import {
-  FiCompass,
-  FiHome,
-  FiSettings,
-  FiStar,
-  FiTrendingUp,
-} from "react-icons/fi";
+import { FiHome } from "react-icons/fi";
+import { GiJewelCrown } from "react-icons/gi";
+import { IoIosMan, IoIosWoman } from "react-icons/io";
+import { SiElectron } from "react-icons/si";
 
 const LinkItems = [
   { name: "Home", icon: FiHome, href: "/" },
-  { name: "Electronics", icon: FiTrendingUp, href: "/category/electronics" },
-  { name: "Jewelery", icon: FiCompass, href: "/category/jewelery" },
-  { name: "Men's clothing", icon: FiStar, href: "/category/men's clothing" },
+  { name: "Electronics", icon: SiElectron, href: "/category/electronics" },
+  { name: "Jewelery", icon: GiJewelCrown, href: "/category/jewelery" },
+  { name: "Men's clothing", icon: IoIosMan, href: "/category/men's clothing" },
   {
     name: "Women's clothing",
-    icon: FiSettings,
+    icon: IoIosWoman,
     href: "/category/women's clothing",
   },
 ];

@@ -3,7 +3,7 @@ import { AppProps } from "next/app";
 import { useEffect } from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { getCatergory } from "../api_client/productApi";
-import MainLayout from "../components/layouts/main";
+import MainLayout from "../components/Layouts/main";
 import theme from "../theme";
 
 function MyApp({ Component, pageProps }: AppProps) {
