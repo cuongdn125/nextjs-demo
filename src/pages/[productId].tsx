@@ -1,18 +1,10 @@
-import {
-  AspectRatio,
-  Box,
-  Button,
-  Divider,
-  Flex,
-  Heading,
-  Image,
-} from "@chakra-ui/react";
+import { Box, Button, Divider, Flex, Heading, Image } from "@chakra-ui/react";
+import { GetStaticPropsContext } from "next";
 import { useRouter } from "next/router";
 import React from "react";
-import { useQuery } from "react-query";
-import styled from "styled-components";
-import { getProduct } from "../api_client/productApi";
 import StarRatings from "react-star-ratings";
+import styled from "styled-components";
+import { getListProduct, getProduct, Product } from "../api_client/productApi";
 import Loading from "../components/Loading";
 
 const SpanStyled = styled.span`
@@ -23,20 +15,12 @@ const BoxProductDetailInfo = styled(Box)`
   font-size: 16px;
   color: #1a202c;
 `;
-export default function ProductDetail() {
+export default function ProductDetail(props: { product: Product }) {
+  const product = props.product;
   const router = useRouter();
-  const productId = router.query.productId as string;
-  const {
-    data: product,
-    isLoading,
-    isError,
-    error,
-  } = useQuery(["product", productId], () => getProduct(productId), {
-    keepPreviousData: true,
-  });
-
-  if (isLoading) return <Loading />;
-  if (isError) return <div>Error: {error}</div>;
+  if (router.isFallback) {
+    return <Loading />;
+  }
   return (
     <Box
       p={1}
@@ -196,4 +180,26 @@ export default function ProductDetail() {
       </Flex>
     </Box>
   );
+}
+
+export async function getStaticPaths() {
+  const products = await getListProduct();
+  const paths = products.map((product) => ({
+    params: { productId: product.id.toString() },
+  }));
+  return {
+    paths: paths,
+    fallback: true,
+  };
+}
+
+export async function getStaticProps(context: GetStaticPropsContext) {
+  const productId = context.params.productId as string;
+  const product = await getProduct(productId);
+  return {
+    props: {
+      product,
+    },
+    revalidate: 30,
+  };
 }

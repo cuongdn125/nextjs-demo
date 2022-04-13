@@ -11,7 +11,7 @@ const ListProduct = (props: { products: Array<Product> }) => {
     <Box>
       <SimpleGrid spacing={4} columns={{ base: 1, sm: 2, md: 3, xl: 4 }}>
         {products.map((product) => (
-          <Link href={product.id.toString()} key={product.id}>
+          <Link href={`/${product.id.toString()}`} key={product.id}>
             <a>
               <ProductItem product={product} />
             </a>

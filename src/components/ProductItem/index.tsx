@@ -2,9 +2,11 @@ import { Box, Center, Flex, Image, Spacer } from "@chakra-ui/react";
 import React from "react";
 import { Product } from "../../api_client/productApi";
 import StarRatings from "react-star-ratings";
+import Loading from "../Loading";
 
 const ProductItem = (props: { product: Product }) => {
   const product = props.product;
+  if (!product) return <Loading />;
   return (
     <Box
       w={"100%"}

@@ -33,11 +33,15 @@ import {
 } from "react-icons/fi";
 
 const LinkItems = [
-  { name: "Home", icon: FiHome },
-  { name: "Trending", icon: FiTrendingUp },
-  { name: "Explore", icon: FiCompass },
-  { name: "Favourites", icon: FiStar },
-  { name: "Settings", icon: FiSettings },
+  { name: "Home", icon: FiHome, href: "/" },
+  { name: "Electronics", icon: FiTrendingUp, href: "/category/electronics" },
+  { name: "Jewelery", icon: FiCompass, href: "/category/jewelery" },
+  { name: "Men's clothing", icon: FiStar, href: "/category/men's clothing" },
+  {
+    name: "Women's clothing",
+    icon: FiSettings,
+    href: "/category/women's clothing",
+  },
 ];
 
 export default function Sidebar({ children }) {
@@ -168,23 +172,27 @@ export default function Sidebar({ children }) {
 
           <DrawerBody>
             {LinkItems.map((item, index) => (
-              <Box key={index} mx={"16px"} h={"56px"}>
-                <Flex
-                  h={"100%"}
-                  p={"16px"}
-                  cursor={"pointer"}
-                  _hover={{
-                    bg: "#0BC5EA",
-                    color: "white",
-                    borderRadius: "8px",
-                  }}
-                >
-                  <Center>
-                    <Icon as={item.icon} mr={"16px"} />
-                    <Box>{item.name}</Box>
-                  </Center>
-                </Flex>
-              </Box>
+              <Link href={item.href} passHref key={index}>
+                <a>
+                  <Box mx={"16px"} h={"56px"}>
+                    <Flex
+                      h={"100%"}
+                      p={"16px"}
+                      cursor={"pointer"}
+                      _hover={{
+                        bg: "#0BC5EA",
+                        color: "white",
+                        borderRadius: "8px",
+                      }}
+                    >
+                      <Center>
+                        <Icon as={item.icon} mr={"16px"} />
+                        <Box>{item.name}</Box>
+                      </Center>
+                    </Flex>
+                  </Box>
+                </a>
+              </Link>
             ))}
           </DrawerBody>
         </DrawerContent>
@@ -214,23 +222,27 @@ const SideBarDesktop = () => {
         </Link>
       </Flex>
       {LinkItems.map((item, index) => (
-        <Box key={index} mx={"16px"} h={"56px"}>
-          <Flex
-            h={"100%"}
-            p={"16px"}
-            cursor={"pointer"}
-            _hover={{
-              bg: "#0BC5EA",
-              color: "white",
-              borderRadius: "8px",
-            }}
-          >
-            <Center>
-              <Icon as={item.icon} mr={"16px"} />
-              <Box>{item.name}</Box>
-            </Center>
-          </Flex>
-        </Box>
+        <Link href={item.href} passHref key={index}>
+          <a>
+            <Box key={index} mx={"16px"} h={"56px"}>
+              <Flex
+                h={"100%"}
+                p={"16px"}
+                cursor={"pointer"}
+                _hover={{
+                  bg: "#0BC5EA",
+                  color: "white",
+                  borderRadius: "8px",
+                }}
+              >
+                <Center>
+                  <Icon as={item.icon} mr={"16px"} />
+                  <Box>{item.name}</Box>
+                </Center>
+              </Flex>
+            </Box>
+          </a>
+        </Link>
       ))}
     </Box>
   );
