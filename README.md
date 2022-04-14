@@ -1,5 +1,5 @@
 
-# [Link Demo](https://nextjs-demo-dnc.vercel.app/)
+# Link Demo: [https://nextjs-demo-dnc.vercel.app/](https://nextjs-demo-dnc.vercel.app/)
 
 # Example app with [chakra-ui](https://github.com/chakra-ui/chakra-ui) and TypeScript
 
