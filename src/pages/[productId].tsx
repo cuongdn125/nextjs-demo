@@ -56,7 +56,10 @@ export default function ProductDetail(props: { product: Product }) {
             }}
             objectFit={"contain"}
             borderRadius={8}
-            src={product.image}
+            src={
+              product.cloudinarys[0].url ||
+              "https://images.unsplash.com/photo-1584917865442-de89df76afd3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80"
+            }
           />
         </Box>
         <Box
@@ -78,27 +81,27 @@ export default function ProductDetail(props: { product: Product }) {
             }}
             color="#1A202C"
           >
-            {product.title}
+            {product.name}
           </Heading>
           <Box fontSize="24px" mb={2}>
-            ${product.price} USD
+            ${product.price} VND
           </Box>
           <Flex alignItems="center">
-            <StarRatings
+            {/* <StarRatings
               rating={product.rating.rate}
               starDimension="1.8rem"
               starSpacing="1px"
               starRatedColor="#ffc107"
               numberOfStars={5}
-            />
+            /> */}
             <Box fontSize="1.2rem" fontWeight="500" ml={4}>
-              {product.rating.count} reviews
+              Total: {product.total} product
             </Box>
           </Flex>
 
-          <Box fontSize="24px" color="#718096" mt={6}>
+          {/* <Box fontSize="24px" color="#718096" mt={6}>
             <SpanStyled>Category:</SpanStyled> {product.category}
-          </Box>
+          </Box> */}
           <Box fontSize="18px" color="#1A202C" mt={4}>
             {product.description}
           </Box>

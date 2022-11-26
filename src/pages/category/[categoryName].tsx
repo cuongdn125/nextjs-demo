@@ -3,9 +3,9 @@ import { GetStaticPropsContext } from "next";
 import { useRouter } from "next/router";
 import React from "react";
 import {
-  getCatergory,
+  getPortfolio,
   getListProduct,
-  getProductByCategory,
+  getProductByPortfolio,
   Product,
 } from "../../api_client/productApi";
 import ListProduct from "../../components/ListProduct";
@@ -14,7 +14,7 @@ import Loading from "../../components/Loading";
 export default function Category(props: { products: Array<Product> }) {
   const products = props.products;
   const router = useRouter();
-  const categoryName = router.query.categoryName as string;
+  // const portfolioName = router.query.portfolioId as string;
   if (router.isFallback) {
     return <Loading />;
   }
@@ -28,7 +28,7 @@ export default function Category(props: { products: Array<Product> }) {
         fontWeight="bold"
         mb={2}
       >
-        {categoryName.charAt(0).toUpperCase() + categoryName.slice(1)}
+        {/* {portfolioName.charAt(0).toUpperCase() + portfolioName.slice(1)} */}
       </Box>
       <Box>
         <ListProduct products={products} />
@@ -38,9 +38,9 @@ export default function Category(props: { products: Array<Product> }) {
 }
 
 export async function getStaticPaths() {
-  const categories = await getCatergory();
-  const paths = categories.map((category) => ({
-    params: { categoryName: category },
+  const portfolios = await getPortfolio();
+  const paths = portfolios.map((portfolio) => ({
+    params: { portfolioId: portfolio.id },
   }));
   return {
     paths,
@@ -49,9 +49,9 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps(context: GetStaticPropsContext) {
-  const categoryName = context.params.categoryName as string;
+  const portfolioId = context.params.portfolioId;
 
-  const products = await getProductByCategory(categoryName);
+  const products = await getProductByPortfolio(parseInt(portfolioId as string));
   return {
     props: {
       products,

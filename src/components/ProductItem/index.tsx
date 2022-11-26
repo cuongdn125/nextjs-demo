@@ -1,4 +1,4 @@
-import { Box, Center, Flex, Image, Spacer } from "@chakra-ui/react";
+import { Box, Center, Flex, Image, Spacer, Text } from "@chakra-ui/react";
 import React from "react";
 import { Product } from "../../api_client/productApi";
 import StarRatings from "react-star-ratings";
@@ -40,21 +40,29 @@ const ProductItem = (props: { product: Product }) => {
         transition="all 0.3s ease-in-out"
       ></Flex>
       <Center h={"280px"}>
-        <Image src={product.image} h={"100%"} objectFit="contain" />
+        <Image
+          src={
+            product.cloudinarys[0].url ||
+            "https://images.unsplash.com/photo-1584917865442-de89df76afd3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80"
+          }
+          h={"100%"}
+          objectFit="contain"
+        />
       </Center>
       <Box p={6} className="info_product">
         <Box display="flex" justifyContent="space-between">
           <Box fontSize={"0.8rem"}>
-            <Box>{product.rating.count} reviews</Box>
-            <Flex flexDirection="column">
-              <StarRatings
+            <Box>Total: {product.total} product</Box>
+            {/* <Flex flexDirection="column"> */}
+            {/* <StarRatings
                 rating={product.rating.rate}
                 starDimension="12px"
                 starSpacing="1px"
                 starRatedColor="#ffc107"
                 numberOfStars={5}
-              />
-            </Flex>
+              /> */}
+            {/* <Text>Total</Text> */}
+            {/* </Flex> */}
           </Box>
           <Center
             fontSize={{
@@ -63,7 +71,7 @@ const ProductItem = (props: { product: Product }) => {
             }}
             fontWeight={500}
           >
-            ${product.price}
+            {product.price} VND
           </Center>
         </Box>
       </Box>

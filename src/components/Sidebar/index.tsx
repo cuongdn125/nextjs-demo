@@ -23,11 +23,12 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FiHome } from "react-icons/fi";
 import { GiJewelCrown } from "react-icons/gi";
 import { IoIosMan, IoIosWoman } from "react-icons/io";
 import { SiElectron } from "react-icons/si";
+import { getPortfolio, Portfolio } from "../../api_client/productApi";
 
 const LinkItems = [
   { name: "Home", icon: FiHome, href: "/" },
@@ -43,6 +44,21 @@ const LinkItems = [
 
 export default function Sidebar({ children }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [linkItems, setLinkItems] = useState<Array<Portfolio>>([]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const data = await getPortfolio();
+        console.log(data);
+        setLinkItems(data);
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, []);
+  console.log(linkItems);
+
   return (
     <Box>
       <Flex position="relative">
@@ -129,6 +145,12 @@ export default function Sidebar({ children }) {
                   <MenuList>
                     <MenuItem>Settings</MenuItem>
                     <MenuDivider />
+                    <MenuItem>
+                      <Link href="/checkout" passHref>
+                        <a>Checkout</a>
+                      </Link>
+                    </MenuItem>
+                    <MenuDivider />
                     <MenuItem>Logout</MenuItem>
                   </MenuList>
                 </Menu>
@@ -168,8 +190,8 @@ export default function Sidebar({ children }) {
           </DrawerHeader>
 
           <DrawerBody>
-            {LinkItems.map((item, index) => (
-              <Link href={item.href} passHref key={index}>
+            {linkItems.map((item, index) => (
+              <Link href={`/category/${item.id}`} passHref key={item.id}>
                 <a>
                   <Box mx={"16px"} h={"56px"}>
                     <Flex
@@ -183,7 +205,7 @@ export default function Sidebar({ children }) {
                       }}
                     >
                       <Center>
-                        <Icon as={item.icon} mr={"16px"} />
+                        {/* <Icon as={item.icon} mr={"16px"} /> */}
                         <Box>{item.name}</Box>
                       </Center>
                     </Flex>
