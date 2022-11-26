@@ -10,9 +10,32 @@ import {
 import * as React from "react";
 import { CartItem } from "../../components/Checkout/CardItem";
 import { CartOrderSummary } from "../../components/Checkout/CartOrderSummary";
-import { cartData } from "../../components/Checkout/_data";
 
 export default function Cart() {
+  const [cartData, setCartData] = React.useState([]);
+  React.useEffect(() => {
+    const value = localStorage.getItem("listItem");
+    const data = !!value ? JSON.parse(value) : [];
+    setCartData(data);
+  }, []);
+
+  React.useEffect(() => {
+    localStorage.setItem("listItem", JSON.stringify(cartData));
+  }, [JSON.stringify(cartData)]);
+
+  const onChangeQuantity = (amount: number, id: number) => {
+    const newData = cartData.map((item) => {
+      if (item?.id === id) {
+        return { ...item, amount: amount };
+      }
+      return item;
+    });
+    setCartData(newData);
+  };
+  const onClickDelete = (id: number) => {
+    const newData = cartData.filter((item) => item?.id !== id);
+    setCartData(newData);
+  };
   return (
     <Box
       maxW={{ base: "3xl", lg: "7xl" }}
@@ -32,7 +55,12 @@ export default function Cart() {
 
           <Stack spacing="6">
             {cartData.map((item) => (
-              <CartItem key={item.id} {...item} />
+              <CartItem
+                key={item.id}
+                {...item}
+                onChangeQuantity={onChangeQuantity}
+                onClickDelete={onClickDelete}
+              />
             ))}
           </Stack>
         </Stack>

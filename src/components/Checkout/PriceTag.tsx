@@ -8,7 +8,7 @@ import {
 import * as React from "react";
 
 interface PriceTagProps {
-  currency: string;
+  currency?: string;
   price: number;
   salePrice?: number;
   rootProps?: StackProps;

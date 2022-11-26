@@ -2,54 +2,43 @@ import {
   CloseButton,
   Flex,
   Link,
-  Select,
-  SelectProps,
-  useColorModeValue,
+  NumberDecrementStepper,
+  NumberIncrementStepper,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
 } from "@chakra-ui/react";
-import * as React from "react";
-import { PriceTag } from "./PriceTag";
+import { Cloudinary } from "../../api_client/productApi";
 import { CartProductMeta } from "./CartProductMeta";
+import { PriceTag } from "./PriceTag";
 
 type CartItemProps = {
-  isGiftWrapping?: boolean;
+  id: number;
   name: string;
   description: string;
-  quantity: number;
+  total: number;
   price: number;
-  currency: string;
-  imageUrl: string;
-  onChangeQuantity?: (quantity: number) => void;
-  onClickGiftWrapping?: () => void;
-  onClickDelete?: () => void;
-};
-
-const QuantitySelect = (props: SelectProps) => {
-  return (
-    <Select
-      maxW="64px"
-      aria-label="Select quantity"
-      focusBorderColor={useColorModeValue("blue.500", "blue.200")}
-      {...props}
-    >
-      <option value="1">1</option>
-      <option value="2">2</option>
-      <option value="3">3</option>
-      <option value="4">4</option>
-    </Select>
-  );
+  import_date: Date;
+  post_service: string;
+  cloudinarys: Cloudinary[];
+  amount: number;
+  onChangeQuantity?: (quantity: number, id: number) => void;
+  onClickDelete?: (id: number) => void;
 };
 
 export const CartItem = (props: CartItemProps) => {
   const {
-    isGiftWrapping,
+    id,
     name,
     description,
-    quantity,
-    imageUrl,
-    currency,
+    total,
     price,
+    import_date,
+    post_service,
+    cloudinarys,
     onChangeQuantity,
     onClickDelete,
+    amount,
   } = props;
 
   return (
@@ -61,8 +50,11 @@ export const CartItem = (props: CartItemProps) => {
       <CartProductMeta
         name={name}
         description={description}
-        image={imageUrl}
-        isGiftWrapping={isGiftWrapping}
+        image={
+          cloudinarys[0].url ||
+          "https://images.unsplash.com/photo-1584917865442-de89df76afd3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80"
+        }
+        isGiftWrapping={false}
       />
 
       {/* Desktop */}
@@ -71,16 +63,29 @@ export const CartItem = (props: CartItemProps) => {
         justify="space-between"
         display={{ base: "none", md: "flex" }}
       >
-        <QuantitySelect
+        {/* <QuantitySelect
           value={quantity}
           onChange={(e) => {
             onChangeQuantity?.(+e.currentTarget.value);
           }}
-        />
-        <PriceTag price={price} currency={currency} />
+        /> */}
+        <NumberInput
+          maxW={20}
+          onChange={(amount) => onChangeQuantity(parseInt(amount), id)}
+          defaultValue={amount}
+        >
+          <NumberInputField />
+          <NumberInputStepper>
+            <NumberIncrementStepper />
+            <NumberDecrementStepper />
+          </NumberInputStepper>
+        </NumberInput>
+        <PriceTag price={price} />
         <CloseButton
           aria-label={`Delete ${name} from cart`}
-          onClick={onClickDelete}
+          onClick={() => {
+            onClickDelete(id);
+          }}
         />
       </Flex>
 
@@ -92,16 +97,33 @@ export const CartItem = (props: CartItemProps) => {
         justify="space-between"
         display={{ base: "flex", md: "none" }}
       >
-        <Link fontSize="sm" textDecor="underline">
+        <Link
+          fontSize="sm"
+          textDecor="underline"
+          onClick={() => {
+            onClickDelete(id);
+          }}
+        >
           Delete
         </Link>
-        <QuantitySelect
+        {/* <QuantitySelect
           value={quantity}
           onChange={(e) => {
             onChangeQuantity?.(+e.currentTarget.value);
           }}
-        />
-        <PriceTag price={price} currency={currency} />
+        /> */}
+        <NumberInput
+          maxW={20}
+          onChange={(amount) => onChangeQuantity(parseInt(amount), id)}
+          defaultValue={amount}
+        >
+          <NumberInputField />
+          <NumberInputStepper>
+            <NumberIncrementStepper />
+            <NumberDecrementStepper />
+          </NumberInputStepper>
+        </NumberInput>
+        <PriceTag price={price} />
       </Flex>
     </Flex>
   );

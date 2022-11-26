@@ -1,7 +1,20 @@
-import { Box, Button, Divider, Flex, Heading, Image } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Divider,
+  Flex,
+  Heading,
+  Image,
+  NumberDecrementStepper,
+  NumberIncrementStepper,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  Text,
+} from "@chakra-ui/react";
 import { GetStaticPropsContext } from "next";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useState } from "react";
 import StarRatings from "react-star-ratings";
 import styled from "styled-components";
 import { getListProduct, getProduct, Product } from "../api_client/productApi";
@@ -18,9 +31,34 @@ const BoxProductDetailInfo = styled(Box)`
 export default function ProductDetail(props: { product: Product }) {
   const product = props.product;
   const router = useRouter();
+  const [amount, setAmount] = useState(0);
   if (router.isFallback) {
     return <Loading />;
   }
+
+  const handlAddToCart = () => {
+    const value = localStorage.getItem("listItem");
+    const listItemAddToCart = !!value ? JSON.parse(value) : [];
+    const isExit = [...listItemAddToCart].find(
+      (item) => item?.id === product.id
+    );
+    let newList = [];
+    if (isExit) {
+      newList = [...listItemAddToCart].map((item) => {
+        if (item?.id === product.id) {
+          return {
+            ...item,
+            amount: item?.amount + amount,
+          };
+        }
+        return item;
+      });
+    } else {
+      newList = [...listItemAddToCart, { ...product, amount }];
+    }
+    localStorage.setItem("listItem", JSON.stringify(newList));
+    router.push("/checkout");
+  };
   return (
     <Box
       p={1}
@@ -170,8 +208,26 @@ export default function ProductDetail(props: { product: Product }) {
               <SpanStyled>Water resistance:</SpanStyled>5 bar (50 metres / 167
               feet)
             </BoxProductDetailInfo>
+            <Flex alignItems={"center"}>
+              <Text mr={2}>Amount: </Text>
+              <NumberInput
+                onChange={(amount) => setAmount(parseInt(amount))}
+                value={amount}
+              >
+                <NumberInputField />
+                <NumberInputStepper>
+                  <NumberIncrementStepper />
+                  <NumberDecrementStepper />
+                </NumberInputStepper>
+              </NumberInput>
+            </Flex>
             <Box w={"100%"} mt={8}>
-              <Button w={"100%"} textTransform="uppercase" colorScheme="teal">
+              <Button
+                w={"100%"}
+                textTransform="uppercase"
+                colorScheme="teal"
+                onClick={handlAddToCart}
+              >
                 Add to cart
               </Button>
               <Box w={"100%"} mt={4} textAlign="center">
