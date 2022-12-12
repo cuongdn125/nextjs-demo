@@ -36,6 +36,7 @@ export default function Cart() {
     const newData = cartData.filter((item) => item?.id !== id);
     setCartData(newData);
   };
+
   return (
     <Box
       maxW={{ base: "3xl", lg: "7xl" }}
@@ -50,7 +51,7 @@ export default function Cart() {
       >
         <Stack spacing={{ base: "8", md: "10" }} flex="2">
           <Heading fontSize="2xl" fontWeight="extrabold">
-            Shopping Cart (3 items)
+            Shopping Cart ({cartData.length} items)
           </Heading>
 
           <Stack spacing="6">
@@ -66,10 +67,10 @@ export default function Cart() {
         </Stack>
 
         <Flex direction="column" align="center" flex="1">
-          <CartOrderSummary />
+          <CartOrderSummary cartData={cartData}/>
           <HStack mt="6" fontWeight="semibold">
             <p>or</p>
-            <Link color={mode("blue.500", "blue.200")}>Continue shopping</Link>
+            <Link href="/" color={mode("blue.500", "blue.200")}>Continue shopping</Link>
           </HStack>
         </Flex>
       </Stack>

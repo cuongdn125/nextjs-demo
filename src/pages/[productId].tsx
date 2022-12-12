@@ -28,6 +28,15 @@ const BoxProductDetailInfo = styled(Box)`
   font-size: 16px;
   color: #1a202c;
 `;
+
+const settings = {
+  dots: true,
+  infinite: true,
+  speed: 500,
+  slidesToShow: 1,
+  slidesToScroll: 1,
+};
+
 export default function ProductDetail(props: { product: Product }) {
   const product = props.product;
   const router = useRouter();
@@ -59,6 +68,13 @@ export default function ProductDetail(props: { product: Product }) {
     localStorage.setItem("listItem", JSON.stringify(newList));
     router.push("/checkout");
   };
+
+  const images = [
+    { url: "https://picsum.photos/seed/a/1600/900" },
+    { url: "https://picsum.photos/seed/b/1920/1080" },
+    { url: "https://picsum.photos/seed/c/1366/768" },
+  ];
+
   return (
     <Box
       p={1}
@@ -76,15 +92,15 @@ export default function ProductDetail(props: { product: Product }) {
       >
         <Box
           flex={1}
-          //   p={3}
           mr={{
             base: "0",
             lg: "30px",
           }}
           display={{
             base: "flex",
-            md: "block",
+            md: "flex",
           }}
+          border="1px solid rbga(0,0,0,0.12)"
           justifyContent={"center"}
         >
           <Image
@@ -92,7 +108,7 @@ export default function ProductDetail(props: { product: Product }) {
               base: "80%",
               md: "100%",
             }}
-            objectFit={"contain"}
+            // objectFit={"contain"}
             borderRadius={8}
             src={
               product.cloudinarys[0].url ||
@@ -157,9 +173,7 @@ export default function ProductDetail(props: { product: Product }) {
               }}
             >
               <Box flex={1}>
-                <Box>Chronograph</Box>
-                <Box mt={2}>Master Chronometer Certified</Box>
-                <Box mt={2}>Tachymeter</Box>
+                <Box>Product feature 1</Box>
               </Box>
               <Box
                 flex={1}
@@ -168,9 +182,7 @@ export default function ProductDetail(props: { product: Product }) {
                   sm: "0",
                 }}
               >
-                <Box>Anti-magnetic</Box>
-                <Box mt={2}>Chronometer</Box>
-                <Box mt={2}>Small seconds</Box>
+                <Box>Product feature 2</Box>
               </Box>
             </Flex>
           </Box>
@@ -180,37 +192,17 @@ export default function ProductDetail(props: { product: Product }) {
               PRODUCT DETAILS
             </Box>
             <BoxProductDetailInfo mt={4}>
-              <SpanStyled>Between lugs:</SpanStyled>
-              20 mm
+              <SpanStyled>Product detail 1:</SpanStyled>
+              Product detail value
             </BoxProductDetailInfo>
             <BoxProductDetailInfo mt={1}>
-              <SpanStyled>Bracelet:</SpanStyled>
-              leather strap
-            </BoxProductDetailInfo>
-            <BoxProductDetailInfo mt={1}>
-              <SpanStyled>Case:</SpanStyled>
-              Steel
-            </BoxProductDetailInfo>
-            <BoxProductDetailInfo mt={1}>
-              <SpanStyled>Case diameter:</SpanStyled>
-              42 mm
-            </BoxProductDetailInfo>
-            <BoxProductDetailInfo mt={1}>
-              <SpanStyled>Dial color:</SpanStyled>
-              Black
-            </BoxProductDetailInfo>
-            <BoxProductDetailInfo mt={1}>
-              <SpanStyled>Crystal:</SpanStyled>
-              Domed, scratch-resistant sapphire crystal with anti-reflective
-              treatment inside
-            </BoxProductDetailInfo>
-            <BoxProductDetailInfo mt={1}>
-              <SpanStyled>Water resistance:</SpanStyled>5 bar (50 metres / 167
-              feet)
+              <SpanStyled>Product detail 2:</SpanStyled>
+              Product detail value
             </BoxProductDetailInfo>
             <Flex alignItems={"center"}>
               <Text mr={2}>Amount: </Text>
               <NumberInput
+                min={1}
                 onChange={(amount) => setAmount(parseInt(amount))}
                 value={amount}
               >

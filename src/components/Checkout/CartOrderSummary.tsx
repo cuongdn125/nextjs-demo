@@ -29,13 +29,27 @@ const OrderSummaryItem = (props: OrderSummaryItemProps) => {
   );
 };
 
-export const CartOrderSummary = () => {
+export const CartOrderSummary = ({ cartData }) => {
+  const [total, setTotal] = React.useState();
+
+  React.useEffect(() => {
+    const totalTemp = cartData.reduce(
+      (accumulator, item) => accumulator + item.price * item.amount,
+      0
+    );
+    setTotal(totalTemp);
+    localStorage.setItem("valueCart",totalTemp);
+  }, [cartData]);
+
   return (
     <Stack spacing="8" borderWidth="1px" rounded="lg" padding="8" width="full">
       <Heading size="md">Order Summary</Heading>
 
       <Stack spacing="6">
-        <OrderSummaryItem label="Subtotal" value={formatPrice(597)} />
+        <OrderSummaryItem
+          label="Subtotal"
+          value={formatPrice(total, { currency: "vnd" })}
+        />
         <OrderSummaryItem label="Shipping + Tax">
           <Link href="#" textDecor="underline">
             Calculate shipping
@@ -51,18 +65,21 @@ export const CartOrderSummary = () => {
             Total
           </Text>
           <Text fontSize="xl" fontWeight="extrabold">
-            {formatPrice(597)}
+            {formatPrice(total, { currency: "vnd" })}
           </Text>
         </Flex>
       </Stack>
-      <Button
-        colorScheme="blue"
-        size="lg"
-        fontSize="md"
-        rightIcon={<FaArrowRight />}
-      >
-        Checkout
-      </Button>
+      <Link href="checkout/personal_info" sx={{ width: "100%" }}>
+        <Button
+          w={"full"}
+          colorScheme="blue"
+          size="lg"
+          fontSize="md"
+          rightIcon={<FaArrowRight />}
+        >
+          Checkout
+        </Button>
+      </Link>
     </Stack>
   );
 };

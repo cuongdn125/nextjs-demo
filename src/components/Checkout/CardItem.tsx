@@ -71,6 +71,7 @@ export const CartItem = (props: CartItemProps) => {
         /> */}
         <NumberInput
           maxW={20}
+          min={1}
           onChange={(amount) => onChangeQuantity(parseInt(amount), id)}
           defaultValue={amount}
         >
@@ -80,7 +81,7 @@ export const CartItem = (props: CartItemProps) => {
             <NumberDecrementStepper />
           </NumberInputStepper>
         </NumberInput>
-        <PriceTag price={price} />
+        <PriceTag price={price} currency={'vnd'}/>
         <CloseButton
           aria-label={`Delete ${name} from cart`}
           onClick={() => {

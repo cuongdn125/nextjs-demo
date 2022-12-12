@@ -20,13 +20,20 @@ export interface Portfolio {
   description: string;
 }
 
+export interface PortfolioI {
+  id: number;
+  name: string;
+  description: string;
+  products: Product[];
+}
+
 export const getListProduct = async (): Promise<Array<Product>> => {
-  const response: Array<Product> = await axiosClient.get("/list");
+  const response: Array<Product> = await axiosClient.get("/product/list");
   return response;
 };
 
 export const getProduct = async (productId: string): Promise<Product> => {
-  const response: Product = await axiosClient.get(`/${productId}`);
+  const response: Product = await axiosClient.get(`/product/${productId}`);
   return response;
 };
 
@@ -36,9 +43,9 @@ export const getPortfolio = async (): Promise<Array<Portfolio>> => {
 };
 
 export const getProductByPortfolio = async (
-  portfolioId: number
-): Promise<Array<Product>> => {
-  const response: Array<Product> = await axiosClient.get(
+  portfolioId: string | string[]
+): Promise<PortfolioI> => {
+  const response: PortfolioI = await axiosClient.get(
     `/portfolio/${portfolioId}`
   );
   return response;

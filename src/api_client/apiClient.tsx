@@ -1,7 +1,6 @@
 import axios from "axios";
 
 const axiosClient = axios.create({
-  // baseURL: "https://fakestoreapi.com/products",
   baseURL: "http://localhost:6789/",
   headers: {
     "Content-Type": "application/json",

@@ -6,10 +6,14 @@ import Loading from "../Loading";
 
 const ProductItem = (props: { product: Product }) => {
   const product = props.product;
+  console.log(product,'product')
   if (!product) return <Loading />;
   return (
     <Box
       w={"100%"}
+      h={"100%"}
+      display='flex'
+      flexDirection='column'
       boxShadow="md"
       rounded="lg"
       bg="white"
@@ -42,17 +46,17 @@ const ProductItem = (props: { product: Product }) => {
       <Center h={"280px"}>
         <Image
           src={
-            product.cloudinarys[0].url ||
+            product?.cloudinarys[0]?.url ||
             "https://images.unsplash.com/photo-1584917865442-de89df76afd3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80"
           }
           h={"100%"}
           objectFit="contain"
         />
       </Center>
-      <Box p={6} className="info_product">
+      <Box p={6} flex-grow="1" className="info_product">
         <Box display="flex" justifyContent="space-between">
           <Box fontSize={"0.8rem"}>
-            <Box>Total: {product.total} product</Box>
+            <Box>{product.name}</Box>
             {/* <Flex flexDirection="column"> */}
             {/* <StarRatings
                 rating={product.rating.rate}
@@ -67,7 +71,7 @@ const ProductItem = (props: { product: Product }) => {
           <Center
             fontSize={{
               base: "0.9rem",
-              lg: "1.4rem",
+              lg: "1rem",
             }}
             fontWeight={500}
           >
