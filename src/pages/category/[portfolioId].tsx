@@ -40,7 +40,7 @@ export default function Category(props: { products: Array<Product> }) {
 export async function getStaticPaths() {
   const portfolios = await getPortfolio();
   const paths = portfolios.map((portfolio) => ({
-    params: { portfolioId: portfolio.id },
+    params: { portfolioId: `${portfolio.id}` },
   }));
   return {
     paths,
@@ -51,10 +51,10 @@ export async function getStaticPaths() {
 export async function getStaticProps(context: GetStaticPropsContext) {
   const portfolioId = context.params.portfolioId;
 
-  const products = await getProductByPortfolio(parseInt(portfolioId as string));
+  const portfolio = await getProductByPortfolio(portfolioId);
   return {
     props: {
-      products,
+      products: portfolio.products,
     },
     revalidate: 30,
   };

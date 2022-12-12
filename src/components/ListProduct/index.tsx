@@ -5,6 +5,7 @@ import { Product } from "../../api_client/productApi";
 import ProductItem from "../ProductItem";
 
 const ListProduct = (props: { products: Array<Product> }) => {
+  console.log(props.products,'products');
   const products = props.products;
 
   return (

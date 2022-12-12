@@ -27,37 +27,37 @@ import React, { useEffect, useState } from "react";
 import { FiHome } from "react-icons/fi";
 import { GiJewelCrown } from "react-icons/gi";
 import { IoIosMan, IoIosWoman } from "react-icons/io";
-import { SiElectron } from "react-icons/si";
+import { AiOutlineShoppingCart } from "react-icons/ai";
 import { getPortfolio, Portfolio } from "../../api_client/productApi";
 
-const LinkItems = [
-  { name: "Home", icon: FiHome, href: "/" },
-  { name: "Electronics", icon: SiElectron, href: "/category/electronics" },
-  { name: "Jewelery", icon: GiJewelCrown, href: "/category/jewelery" },
-  { name: "Men's clothing", icon: IoIosMan, href: "/category/men's clothing" },
-  {
-    name: "Women's clothing",
-    icon: IoIosWoman,
-    href: "/category/women's clothing",
-  },
-];
+// const LinkItems = [
+//   { name: "Home", icon: FiHome, href: "/" },
+//   { name: "Electronics", icon: SiElectron, href: "/category/electronics" },
+//   { name: "Jewelery", icon: GiJewelCrown, href: "/category/jewelery" },
+//   { name: "Men's clothing", icon: IoIosMan, href: "/category/men's clothing" },
+//   {
+//     name: "Women's clothing",
+//     icon: IoIosWoman,
+//     href: "/category/women's clothing",
+//   },
+// ];
 
 export default function Sidebar({ children }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [linkItems, setLinkItems] = useState<Array<Portfolio>>([]);
+  const [linkItems, setLinkItems] = useState<Array<Portfolio>>([
+    { id: 4, name: "mouse portfolio2", description: "portfolio description" },
+  ]);
 
   useEffect(() => {
     (async () => {
       try {
         const data = await getPortfolio();
-        console.log(data);
         setLinkItems(data);
       } catch (error) {
         console.log(error);
       }
     })();
   }, []);
-  console.log(linkItems);
 
   return (
     <Box>
@@ -72,7 +72,7 @@ export default function Sidebar({ children }) {
           left="0"
           zIndex={3}
         >
-          <SideBarDesktop />
+          <SideBarDesktop linkItems={linkItems} />
         </Box>
         <Box flex={1}>
           <Box
@@ -125,6 +125,18 @@ export default function Sidebar({ children }) {
               </Center>
               <Spacer />
 
+              <Center pr={4} >
+                <Link href="/checkout" passHref>
+                  <Icon
+                    as={AiOutlineShoppingCart}
+                    sx={{
+                      width: "30px",
+                      height: "30px",
+                      cursor:"pointer"
+                    }}
+                  />
+                </Link>
+              </Center>
               <Center>
                 <Menu>
                   <MenuButton
@@ -146,8 +158,10 @@ export default function Sidebar({ children }) {
                     <MenuItem>Settings</MenuItem>
                     <MenuDivider />
                     <MenuItem>
-                      <Link href="/checkout" passHref>
-                        <a>Checkout</a>
+                      <Link href="/info" passHref>
+                        <a>
+                          <Text>Infomation user</Text>
+                        </a>
                       </Link>
                     </MenuItem>
                     <MenuDivider />
@@ -220,7 +234,7 @@ export default function Sidebar({ children }) {
   );
 }
 
-const SideBarDesktop = () => {
+const SideBarDesktop = ({ linkItems }) => {
   return (
     <Box
       minH={"100vh"}
@@ -240,8 +254,8 @@ const SideBarDesktop = () => {
           </a>
         </Link>
       </Flex>
-      {LinkItems.map((item, index) => (
-        <Link href={item.href} passHref key={index}>
+      {linkItems.map((item, index) => (
+        <Link href={`/category/${item.id}`} passHref key={index}>
           <a>
             <Box key={index} mx={"16px"} h={"56px"}>
               <Flex
